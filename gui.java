@@ -3,10 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by koencertyn on 11/12/14.
  */
-public class gui extends JFrame{
+public class Gui extends JFrame{
 
     public static final int EXIT_BUTTONS_X = 200;
     public static final int EXIT_BUTTONS_Y = 330;
@@ -22,6 +24,7 @@ public class gui extends JFrame{
     public static final int GLOBAL_COLOR_SIZE_X = 100;
     public static final int GLOBAL_COLOR_SIZE_Y = 40;
 
+    public JLabel CounterStatusValue, alarmStatusColor, IRStatusColor, ButtonStatusColor;
 
 
     public Gui(){
@@ -78,7 +81,7 @@ public class gui extends JFrame{
         alarmStatusText.setForeground(Color.black);
         add(alarmStatusText);
 
-        JLabel alarmStatusColor = new JLabel("OK");
+        alarmStatusColor = new JLabel("OK");
         alarmStatusColor.setOpaque(true);
         alarmStatusColor.setLocation(GLOBAL_STATUS_X + GLOBAL_STATUS_SIZE_X + 20, GLOBAL_STATUS_Y);
         alarmStatusColor.setSize(GLOBAL_COLOR_SIZE_X, GLOBAL_COLOR_SIZE_Y);
@@ -94,7 +97,7 @@ public class gui extends JFrame{
         IRStatusText.setForeground(Color.black);
         add(IRStatusText);
 
-        JLabel IRStatusColor = new JLabel("None");
+        IRStatusColor = new JLabel("None");
         IRStatusColor.setOpaque(true);
         IRStatusColor.setLocation(GLOBAL_STATUS_X + GLOBAL_STATUS_SIZE_X + 20, GLOBAL_STATUS_Y + GLOBAL_STATUS_SIZE_Y + 20);
         IRStatusColor.setSize(GLOBAL_COLOR_SIZE_X, GLOBAL_COLOR_SIZE_Y);
@@ -110,7 +113,7 @@ public class gui extends JFrame{
         ButtonStatusText.setForeground(Color.black);
         add(ButtonStatusText);
 
-        JLabel ButtonStatusColor = new JLabel();
+        ButtonStatusColor = new JLabel();
         ButtonStatusColor.setOpaque(true);
         ButtonStatusColor.setLocation(GLOBAL_STATUS_X + GLOBAL_STATUS_SIZE_X + 20, GLOBAL_STATUS_Y + 2* (GLOBAL_STATUS_SIZE_Y + 20));
         ButtonStatusColor.setSize(GLOBAL_COLOR_SIZE_X, GLOBAL_COLOR_SIZE_Y);
@@ -126,7 +129,7 @@ public class gui extends JFrame{
         CounterStatusText.setForeground(Color.black);
         add(CounterStatusText);
 
-        JLabel CounterStatusValue = new JLabel("60");
+        CounterStatusValue = new JLabel("60");
         CounterStatusValue.setFont(new Font("Serif", Font.PLAIN, 40));
         CounterStatusValue.setOpaque(true);
         CounterStatusValue.setLocation(GLOBAL_STATUS_X + GLOBAL_STATUS_SIZE_X + 20, GLOBAL_STATUS_Y + 3* (GLOBAL_STATUS_SIZE_Y + 20));
@@ -135,4 +138,52 @@ public class gui extends JFrame{
         add(CounterStatusValue);
 
     }
+
+    public void startTimer(){
+        int i = 60;
+        while(i > 0){
+            CounterStatusValue.setText(String.valueOf(i-1));
+            i = i - 1;
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void resetTimer(){
+        CounterStatusValue.setText(String.valueOf(60));
+    }
+
+    public void activateAlarm(){
+        alarmStatusColor.setBackground(Color.RED);
+        alarmStatusColor.setText("Activated");
+    }
+
+    public void disableAlarm(){
+        alarmStatusColor.setBackground(Color.GREEN);
+        alarmStatusColor.setText("Disabled");
+    }
+
+    public void activateMovement(){
+        IRStatusColor.setBackground(Color.RED);
+        IRStatusColor.setText("Activated");
+    }
+
+    public void disableMovement(){
+        IRStatusColor.setBackground(Color.GREEN);
+        IRStatusColor.setText("No movement");
+    }
+
+    public void activateButton(){
+        ButtonStatusColor.setBackground(Color.GREEN);
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ButtonStatusColor.setBackground(Color.RED);
+    }
 }
+
